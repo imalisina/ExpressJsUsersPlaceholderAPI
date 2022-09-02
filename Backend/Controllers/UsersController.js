@@ -39,21 +39,35 @@ const createNewUser = (req, res) => {
 
 const updateSingleUser = (req, res) => {
     let paramId = req.params.userId;
-    findUserFromData(paramId);
-    const updatedUser = {
-        id: paramId,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        username: req.body.username,
-        occupation: req.body.occupation,
+    let isFound = Data.some( user => user.id === parseInt(paramId));
+    if (isFound) {
+        findUserFromData(paramId);
+        const updatedUser = {
+            id: paramId,
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            username: req.body.username,
+            occupation: req.body.occupation,
+        }
+        if ( !updatedUser.first_name || !updatedUser.last_name || !updatedUser.username || !updatedUser.occupation ) {
+            res.status(400).json({error: 'Please Fill All Inputs.'});
+        } else {
+            Data[paramId] = updatedUser;
+        }
+    } else {
+        res.status(404).json({error: `User With ID ${paramId} : Not Found`})
     }
-    Data[paramId] = updatedUser;
     res.json(Data);
+}
+
+const deleteSelectedUser = (req, res) => {
+    res.send('DELETE USER BY CONTROLLER')
 }
 
 module.exports = {
     getAllUsers,
     getSingleUser,
     createNewUser,
-    updateSingleUser
+    updateSingleUser,
+    deleteSelectedUser
 }
