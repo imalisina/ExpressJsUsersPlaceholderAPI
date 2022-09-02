@@ -1,12 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllUsers, getSingleUser, createNewUser } = require('../Controllers/UsersController');
+// @Import Controllers For Each Route
+const { getAllUsers, 
+        getSingleUser, 
+        createNewUser, 
+        updateSingleUser, 
+        deleteSelectedUser } = require('../Controllers/UsersController');
 
+// @Routes For API
 router.get('/', getAllUsers);
 router.get('/single/:userId', getSingleUser);
 router.post('/create', createNewUser);
-// START FROM HERE TO MAKE UPDATE SECTION AND DELETE SECTION...
-// WILL START TOMORROW...
+router.put('/single/update/:userId', updateSingleUser);
+router.delete('/single/delete/:userId', deleteSelectedUser);
 
 module.exports = router;
