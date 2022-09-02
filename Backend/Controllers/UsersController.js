@@ -61,7 +61,14 @@ const updateSingleUser = (req, res) => {
 }
 
 const deleteSelectedUser = (req, res) => {
-    res.send('DELETE USER BY CONTROLLER')
+    let paramId = req.params.userId;
+    let isFound = Data.some( user => user.id === parseInt(paramId));
+    if (isFound) {
+        Data.splice(paramId, 1);
+        res.json(Data);
+    } else {
+        res.status(404).json({error: `User With ID ${paramId} Not Found !`});
+    }
 }
 
 module.exports = {

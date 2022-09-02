@@ -11,6 +11,6 @@ router.get('/', getAllUsers);
 router.get('/single/:userId', getSingleUser);
 router.post('/create', createNewUser);
 router.put('/single/update/:userId', updateSingleUser);
-router.delete('single/delete/:userId', deleteSelectedUser);
+router.delete('/single/delete/:userId', deleteSelectedUser);
 
 module.exports = router;
