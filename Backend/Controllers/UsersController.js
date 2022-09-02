@@ -1,5 +1,10 @@
 const Data = require('../../Data/Users');
 
+let currentUser;
+const findUserFromData = (id) => {
+    return currentUser = Data.filter( user => user.id === parseInt(id));
+}
+
 const getAllUsers = (req, res) => {
     res.json(Data);
 }
@@ -8,8 +13,8 @@ const getSingleUser = (req, res) => {
     let paramId = req.params.userId;
     let isFound = Data.some( user => user.id === parseInt(paramId));
     if (isFound) {
-        let singleUserData = Data.filter( user => user.id === parseInt(paramId));
-        res.json(singleUserData)  
+        findUserFromData(paramId);
+        res.json(currentUser)  
     } else {
         res.status(404).json({error: `User With ID ${paramId} : Not Found`})
     }
@@ -32,8 +37,23 @@ const createNewUser = (req, res) => {
     }
 }
 
+const updateSingleUser = (req, res) => {
+    let paramId = req.params.userId;
+    findUserFromData(paramId);
+    const updatedUser = {
+        id: paramId,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        username: req.body.username,
+        occupation: req.body.occupation,
+    }
+    Data[paramId] = updatedUser;
+    res.json(Data);
+}
+
 module.exports = {
     getAllUsers,
     getSingleUser,
-    createNewUser
+    createNewUser,
+    updateSingleUser
 }
